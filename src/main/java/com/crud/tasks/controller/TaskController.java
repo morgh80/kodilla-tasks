@@ -14,7 +14,12 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
-        return new ArrayList<>();
+        TaskDto testTask1 = new TaskDto((long) 1, "First test task", "test_content");
+        TaskDto testTask2 = new TaskDto((long) 2, "Second test task", "Some content");
+        List<TaskDto> tasksList = new ArrayList<>();
+        tasksList.add(testTask1);
+        tasksList.add(testTask2);
+        return tasksList;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
