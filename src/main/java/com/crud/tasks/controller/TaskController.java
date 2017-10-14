@@ -1,34 +1,41 @@
 package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.mapper.TaskMapper;
+import com.crud.tasks.service.DbService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/task")
+@RequestMapping("/v1/tasks")
 public class TaskController {
+    @Autowired
+    private DbService service;
+    @Autowired
+    private TaskMapper taskMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
-        TaskDto testTask1 = new TaskDto((long) 1, "First test task", "test_content");
-        TaskDto testTask2 = new TaskDto((long) 2, "Second test task", "Some content");
-        List<TaskDto> tasksList = new ArrayList<>();
-        tasksList.add(testTask1);
-        tasksList.add(testTask2);
-        return tasksList;
+        return taskMapper.mapToTaskDtoList(service.getAllTasks());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTask")
+    @RequestMapping(method = RequestMethod.GET, value = "/{taskId}")
+    public TaskDto getTaskById(@PathVariable String taskId) {
+        return taskMapper.mapToTaskDto(service.getTaskById(Long.parseLong(taskId)));
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
     public TaskDto getTask(String taskId) {
         return new TaskDto((long) 1, "test title", "test_content");
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(String taskId) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{taskId}")
+    public void deleteTask(@PathVariable String taskId) {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
@@ -39,5 +46,7 @@ public class TaskController {
     @RequestMapping(method = RequestMethod.POST, value = "createTask")
     public void createTask(TaskDto task) {
     }
+
+
 
 }
