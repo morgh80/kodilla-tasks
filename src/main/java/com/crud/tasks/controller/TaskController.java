@@ -4,12 +4,11 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/v1/tasks")
@@ -25,8 +24,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{taskId}")
-    public TaskDto getTaskById(@PathVariable String taskId) {
-        return taskMapper.mapToTaskDto(service.getTaskById(Long.parseLong(taskId)));
+    public TaskDto getTaskById(@PathVariable String taskId) throws TaskNotFoundException {
+        return taskMapper.mapToTaskDto(service.getTask(Long.parseLong(taskId)).orElseThrow(TaskNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -39,14 +38,13 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
-    public TaskDto updateTask(TaskDto task) {
-        return new TaskDto((long) 1, "Edited test title", "Test content");
+    public TaskDto updateTask(@RequestBody TaskDto taskDto) {
+        return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTask")
-    public void createTask(TaskDto task) {
+    @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE)
+    public void createTask(@RequestBody TaskDto taskDto) {
+        service.saveTask(taskMapper.mapToTask(taskDto));
     }
-
-
 
 }
