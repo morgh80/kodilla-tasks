@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="kodilla-tasks-e48de4f3cb0bb3bab3ddf1a984e6caa4920fedaf_main" target="1.8" />
+      <module name="kodilla-tasks-e48de4f3cb0bb3bab3ddf1a984e6caa4920fedaf_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
