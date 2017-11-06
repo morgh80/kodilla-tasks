@@ -1,4 +1,4 @@
-package com.crud.tasks.domain.trello.badges;
+package com.crud.tasks.trello.domain.badges;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
